@@ -1,0 +1,24 @@
+li {
+  list-style-type: none;
+}
+
+
+.jokes-list {
+  &__joke {
+    background: white;
+    border-radius: 2px;
+    margin-top: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    font-family: Roboto;
+  }
+  &__setup {
+    font-size: 3vh;
+  }
+  &__punchline {
+    padding: 20px 0 20px 0;
+  }
+  &__button {
+    margin-right: auto;
+  }
+}
