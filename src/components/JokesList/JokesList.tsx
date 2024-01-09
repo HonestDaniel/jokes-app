@@ -1,29 +1,32 @@
 import React, {useEffect} from 'react';
-import {fetchJokes} from '../redux/reducers/ActionCreators';
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {addToMyJokes, removeFromMyJokes} from "../redux/reducers/jokesSlice";
+import {fetchJokes} from '../../redux/reducers/ActionCreators';
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {addToMyJokes, removeFromMyJokes} from "../../redux/reducers/jokesSlice";
 import './styles.scss'
 import {Box, Button, CircularProgress, Popover} from "@mui/material";
 
 const JokesList: React.FC = () => {
     const dispatch = useAppDispatch()
-    const {jokes, error, isLoading} = useAppSelector(state => state.jokesReducer);
-    const {myJokes} = useAppSelector(state => state.jokesReducer);
+    const { jokes, myJokes, isLoading, error } = useAppSelector(state => state.jokesReducer);
 
     useEffect(() => {
         if (jokes.length === 0) {
             dispatch(fetchJokes());
         }
-    }, []);
+    }, [dispatch, jokes.length]);
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
+        if (myJokes.length > 0) {
+            setAnchorEl(event.currentTarget);
+        }
     };
 
     const handleClose = () => {
-        setAnchorEl(null);
+        if (myJokes.length > 0) {
+            setAnchorEl(null);
+        }
     };
 
     const open = Boolean(anchorEl);
@@ -56,29 +59,33 @@ const JokesList: React.FC = () => {
                     ))}
                 </ul>
             )}
-            <div>
-                <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                >
-                    <ul>
-                        {myJokes.map((joke) => (
-                            <li key={joke.id} className='jokes-list__joke'>
-                                <h3 className='jokes-list__setup'>{joke.setup}</h3>
-                                <p className='jokes-list__punchline'>{joke.punchline}</p>
-                                <Button className='jokes-list__button'
-                                        onClick={() => dispatch(removeFromMyJokes(joke.id))}>Remove</Button>
-                            </li>
-                        ))}
-                    </ul>
-                </Popover>
-            </div>
+            {
+                myJokes.length > 0 ? (
+                    <div>
+                        <Popover
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                        >
+                            <ul>
+                                {myJokes.map((joke) => (
+                                    <li key={joke.id} className='jokes-list__joke'>
+                                        <h3 className='jokes-list__setup'>{joke.setup}</h3>
+                                        <p className='jokes-list__punchline'>{joke.punchline}</p>
+                                        <Button className='jokes-list__button'
+                                                onClick={() => dispatch(removeFromMyJokes(joke.id))}>Remove</Button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </Popover>
+                    </div>
+                ) : ''
+            }
         </div>
     );
 };

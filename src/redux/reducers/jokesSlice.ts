@@ -1,13 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Joke } from '../../models/Joke';
+import { JokesState } from '../../models/JokesState';
 import { fetchJokes } from './ActionCreators';
-
-interface JokesState {
-    jokes: Joke[];
-    myJokes: Joke[];
-    isLoading: boolean;
-    error: string;
-}
 
 const initialState: JokesState = {
     jokes: [],

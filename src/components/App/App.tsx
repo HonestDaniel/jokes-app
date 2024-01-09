@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import JokesList from './components/JokesList';
+import JokesList from '../JokesList/JokesList';
 
 const App: React.FC = () => {
   return (
