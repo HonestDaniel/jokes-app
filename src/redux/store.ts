@@ -37,4 +37,8 @@ export const store = configureStore({
 export const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof rootReducer>
+<<<<<<< HEAD
 export type AppDispatch = typeof store.dispatch;
+=======
+export type AppDispatch = typeof store.dispatch;
+>>>>>>> 9d90bc6e3cb23ace5b561bba24eac6d6b4e814db
